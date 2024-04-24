@@ -1,5 +1,27 @@
 import { useState } from 'react'
 
+const FirstSection = props => {
+  return (
+    <div>
+      <h2>Anecdote of the day</h2>
+      <p>{props.anecdotes[props.selected]}</p>
+      <p>has {props.votes[props.selected]} votes</p>
+      <button onClick={props.handleVote}>Vote</button>
+      <button onClick={props.selectNextAnecdote}>Next anecdote</button>
+    </div>
+  )
+}
+
+const SecondSection = props => {
+  return (
+    <div>
+      <h2>Anecdote with most votes</h2>
+      <p>{props.anecdotes[props.getIndexofMostVotes()]}</p>
+      <p>has {props.votes[props.getIndexofMostVotes()]} votes</p>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -15,38 +37,26 @@ const App = () => {
   const [selected, setSelected] = useState(0)
   const [votes, addVotes] = useState(Array(anecdotes.length).fill(0))
 
-  function selectAnecdote() {
+  const selectNextAnecdote = () => {
     const generateRandomNumber = Math.floor(Math.random() * anecdotes.length)
     setSelected(generateRandomNumber)
   }
 
-  function vote() {
+  const handleVote = () => {
     const newVotes = [...votes]
     newVotes[selected]++
     addVotes(newVotes)
   }
 
-  function getIndexofMostVotes() {
+  const getIndexofMostVotes = () => {
     const num = votes.indexOf(Math.max(...votes))
     return num
-
   }
 
   return (
     <>
-      <div>
-        <h2>Anecdote of the day</h2>
-        <p>{anecdotes[selected]}</p>
-        <p>has {votes[selected]} votes</p>
-        <button onClick={vote}>Vote</button>
-        <button onClick={selectAnecdote}>Next anecdote</button>
-      </div>
-
-      <div>
-        <h2>Anecdote with most votes</h2>
-        <p>{anecdotes[getIndexofMostVotes()]}</p>
-        <p>has {votes[getIndexofMostVotes()]} votes</p>
-      </div>
+      <FirstSection anecdotes={anecdotes} votes={votes} selected={selected} handleVote={handleVote} selectNextAnecdote={selectNextAnecdote} />
+      <SecondSection anecdotes={anecdotes} votes={votes} getIndexofMostVotes={getIndexofMostVotes} />
     </>
   )
 }
