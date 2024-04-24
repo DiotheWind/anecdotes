@@ -37,6 +37,7 @@ const App = () => {
       <div>
         <h2>Anecdote of the day</h2>
         <p>{anecdotes[selected]}</p>
+        <p>has {votes[selected]} votes</p>
         <button onClick={vote}>Vote</button>
         <button onClick={selectAnecdote}>Next anecdote</button>
       </div>
@@ -44,6 +45,7 @@ const App = () => {
       <div>
         <h2>Anecdote with most votes</h2>
         <p>{anecdotes[getIndexofMostVotes()]}</p>
+        <p>has {votes[getIndexofMostVotes()]} votes</p>
       </div>
     </>
   )
